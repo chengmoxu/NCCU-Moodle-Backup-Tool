@@ -33,16 +33,14 @@ while mode == "1":
     course_elements = driver.find_elements(By.CSS_SELECTOR, ".content .unlist .column.c1 a")
     courses = {course.get_attribute("title"): course.get_attribute("href") for course in course_elements}
     for course_name, course_link in courses.items():
-        # 去除不合法的文件名字符
+        # 去除不合規則的文件名字元
         valid_course_name = "".join(char for char in course_name if char.isalnum() or char in " _-")
         os.makedirs(valid_course_name, exist_ok=True)
         # 載入課程頁面
         driver.get(course_link)
         time.sleep(2)  # 等待頁面載入完成
-        course_description_element = driver.find_element(By.CSS_SELECTOR, "div.summary")  # 假設課程描述在這個選擇器中
-        course_description = course_description_element.text
-        with open(f"{valid_course_name}/description.txt", "w", encoding="utf-8") as file:
-            file.write(course_description)
+        # section-0 = 公告/課程大綱
+        # section-1至# section-18 = 課程內容
     break
 #driver.quit()
 while mode == "9":
