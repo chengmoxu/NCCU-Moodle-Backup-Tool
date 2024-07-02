@@ -1,6 +1,6 @@
 # NCCU Moodle Backup Tool(NMBT)
 # Version: v0.0.3 Beta
-# Build: 20240702.1
+# Build: 20240702.2
 '''
       ###     ###     #####    ####     #########         #######
      ####    ###     ######  #####     ####   ###        ###
@@ -9,7 +9,7 @@
   ###  ## ###     ###       ###     ####   ###        ###
  ###   #####     ###       ###     ####   ###        ###
 ###    ####     ###       ###     #########      ######
-[BETA] v0.0.3-20240702.1
+[BETA] v0.0.3-20240702.2
 
 '''
 
@@ -70,7 +70,7 @@ while UserEULAjudge == "Start":
     userinput = input("請輸入：")
     mode = ""
     while mode == "":
-        userinput_judge = str.isdigit(userinput)
+        userinput_judge = str.isdigit (userinput)
         if userinput_judge == True: 
             if  userinput == "1":
                 mode = "Continue"
@@ -85,21 +85,29 @@ while UserEULAjudge == "Start":
             print ("請重新輸入正確選項！")
             mode = ""
     while mode == "Continue":
-        # Get Moodle MAain Page via find_elements
-        course_elements = driver.find_elements(By.CSS_SELECTOR, ".content .unlist .column.c1 a")
-        courses = {course.get_attribute("title"): course.get_attribute("href") for course in course_elements} # Name and Direct Link
-        for course_name, course_link in courses.items():
+        os.chdir ('C:\\NMBT')
+        # Get Moodle Main Page via find_elements
+        course_list = driver.find_elements(By.CSS_SELECTOR, ".content .unlist .column.c1 a") # content/unlist/r0 or r1/column.c1/a
+        course_title = {course.get_attribute("title") for course in course_list}
+        course_link = {course.get_attribute("href") for course in course_list}
+        courses = (course_title,course_link)
+        for course_title, course_link in courses.items ():
             # 去除不合規則的文件名字元
-            valid_course_name = "".join(char for char in course_name if char.isalnum() or char in " _-")
-            os.makedirs(valid_course_name, exist_ok=True)
-            # 載入課程頁面
-            driver.get(course_link)
-            time.sleep(2)  # 等待頁面載入完成
-            # section-0 = 公告/課程大綱
+            valid_course_name = "".join (char for char in course_title if char.isalnum() or char in " _-[]！？（）()")
+            os.makedirs (valid_course_name, exist_ok = True)
+        # 切換資料夾，載入課程頁面進行存取
+        for range in courses:
+            os.chdir (course_title)
+            driver.get (course_link)
+            time.sleep (3)  # 等待頁面載入完成
+            
+            # section-0 = 公告/課程大綱 資料讀取
             section0 = driver.find_element(By.CSS_SELECTOR, '#section-0')
             folder_name = "課程大綱及公告"
-
-            # section-1至# section-18 = 課程內容
+            os.mkdir (folder_name)
+            with open('Introducing.txt', 'w'):
+                pass
+            # section-1至# section-18 = 課程內容 資料讀取
             #判斷16/18週
             if driver.find_element (By.CSS_SELECTOR, '#section-16') == True:
                 if driver.find_element (By.CSS_SELECTOR, '#section-18') == True:
