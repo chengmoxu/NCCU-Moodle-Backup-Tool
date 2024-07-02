@@ -84,6 +84,7 @@ while UserEULAjudge == "Start":
         elif userinput_judge == False:
             print ("請重新輸入正確選項！")
             mode = ""
+
     while mode == "Continue":
         os.chdir ('C:\\NMBT')
         # Get Moodle Main Page via find_elements
@@ -100,13 +101,21 @@ while UserEULAjudge == "Start":
             os.chdir (course_title)
             driver.get (course_link)
             time.sleep (3)  # 等待頁面載入完成
-            
             # section-0 = 公告/課程大綱 資料讀取
             section0 = driver.find_element(By.CSS_SELECTOR, '#section-0')
             folder_name = "課程大綱及公告"
             os.mkdir (folder_name)
-            with open('Introducing.txt', 'w'):
-                pass
+            os.chdir (folder_name)
+            outline_jump_page = driver.find_elements(By.CSS_SELECTOR, ".content .section img-text .activity url modtype_url .mod-indent-outer .activity-wrapper .activityinstance")
+            outline_jump_page_true = outline_jump_page.get_attribute("href")
+            driver.get (outline_jump_page_true)
+            outline_page = driver.find_elements(By.CSS_SELECTOR, "#region-main .urlworkaround a")
+            outline_page_true = outline_page.get_attribute("href")
+            with open('Introducing.txt', 'w') as file:
+                file.write("課程大綱網址: ")
+                file.write(outline_page_true)
+            driver.get (course_link)
+            # activity-wrapper > activity resource modtype_resource / activity assign modtype_assign / activity assign modtype_assign > mod-indent-outer > activity-wrapper > activityinstance > a
             # section-1至# section-18 = 課程內容 資料讀取
             #判斷16/18週
             if driver.find_element (By.CSS_SELECTOR, '#section-16') == True:
@@ -148,5 +157,6 @@ while UserEULAjudge == "Start":
                             time.sleep(10)
         break
     #driver.quit()
+
 while UserEULAjudge == "Exit" or mode == "Exit":
     os.system('pause')
