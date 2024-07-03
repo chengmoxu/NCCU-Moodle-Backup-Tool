@@ -44,7 +44,7 @@ service = webdriver.EdgeService(service_args=['--log-level=DEBUG'], log_output="
 UserEULAjudge = ""
 while UserEULAjudge == "":
     print ("本程式僅基於您所提供的資料進行存取，概不負責您的政大帳號資訊安全，若開始使用視同同意以上說法")
-    UserEULA = str (input ("若同意開始請輸入Yes，不同意輸入No以離開本程式"))
+    UserEULA = str (input ("若同意開始請輸入Yes，不同意輸入No以離開本程式："))
     if UserEULA == "Yes" or "yes":
         print ("感謝使用NMBT")
         print ("請注意，能力越強，責任越大")
@@ -88,6 +88,7 @@ while UserEULAjudge == "Start":
     while mode == "Continue":
         NMBT_folder_name = 'NMBT'
         if not os.path.exists (debug_folder_name):
+            os.chdir ("C:\\")
             os.mkdir (debug_folder_name)
             print (f"{debug_folder_name}資料夾已建立")
         else:
