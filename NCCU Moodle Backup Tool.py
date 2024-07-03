@@ -30,14 +30,14 @@ debug_folder_name = 'NMBT_debug'
 if not os.path.exists (debug_folder_name):
     os.mkdir (debug_folder_name)
     print (f"{debug_folder_name}資料夾已建立")
-else:
+elif os.path.exists (debug_folder_name):
     print (f"{debug_folder_name}資料夾已存在")
 os.chdir ('C:\\NMBT_debug')
 debug_webdriver_folder_name = 'webdriver'
 if not os.path.exists (debug_webdriver_folder_name):
     os.mkdir (debug_webdriver_folder_name)
     print (f"{debug_webdriver_folder_name}資料夾已建立")
-else:
+elif os.path.exists (debug_folder_name):
     print (f"{debug_webdriver_folder_name}資料夾已存在")
 service = webdriver.EdgeService(service_args=['--log-level=DEBUG'], log_output="C:\\NMBT_debug\\webdriver")
 
@@ -84,15 +84,15 @@ while UserEULAjudge == "Start":
         elif userinput_judge == False:
             print ("請重新輸入正確選項！")
             mode = ""
-
+    
     while mode == "Continue":
+        os.chdir ("C:\\")
         NMBT_folder_name = 'NMBT'
-        if not os.path.exists (debug_folder_name):
-            os.chdir ("C:\\")
-            os.mkdir (debug_folder_name)
-            print (f"{debug_folder_name}資料夾已建立")
-        else:
-            print (f"{debug_folder_name}資料夾已存在")
+        if not os.path.exists (NMBT_folder_name):
+            os.mkdir (NMBT_folder_name)
+            print (f"{NMBT_folder_name}資料夾已建立")
+        elif os.path.exists (NMBT_folder_name):
+            print (f"{NMBT_folder_name}資料夾已存在")
         os.chdir ('C:\\NMBT')
         # Get Moodle Main Page via find_elements
         course_list = driver.find_elements(By.CSS_SELECTOR, ".content .unlist .column.c1 a") # content/unlist/r0 or r1/column.c1/a
