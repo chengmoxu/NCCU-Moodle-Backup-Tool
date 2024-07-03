@@ -141,13 +141,15 @@ while UserEULAjudge == "Start":
                         driver.get(outline_jump_page_true)
                 outline_page = driver.find_elements(By.CSS_SELECTOR, "#region-main .urlworkaround a")
                 #outline_page_true = outline_page.get_attribute("href")
+                outline_page_urls = []
                 for element in outline_page:
                     outline_page_true = element.get_attribute("href")
                     if outline_page_true:
-                        print(outline_page_true)
+                        outline_page_urls.append(outline_page_true)
                 with open('Introducing.txt', 'w') as file:
                     file.write("課程大綱網址: ")
-                    file.write(outline_page_true)
+                    for url in outline_page_urls:
+                         file.write(url + "\n")
                 driver.get (course_link)
                 # activity-wrapper > activity resource modtype_resource / activity assign modtype_assign / activity assign modtype_assign > mod-indent-outer > activity-wrapper > activityinstance > a
                 # section-1至# section-18 = 課程內容 資料讀取
