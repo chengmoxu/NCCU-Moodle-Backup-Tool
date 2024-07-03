@@ -33,7 +33,7 @@ if not os.path.exists (debug_folder_name):
 else:
     print (f"{debug_folder_name}資料夾已存在")
 os.chdir ('C:\\NMBT_debug')
-debug_webdriver_folder_name = 'NMBT_debug'
+debug_webdriver_folder_name = 'webdriver'
 if not os.path.exists (debug_webdriver_folder_name):
     os.mkdir (debug_webdriver_folder_name)
     print (f"{debug_webdriver_folder_name}資料夾已建立")
