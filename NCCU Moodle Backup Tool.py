@@ -1,6 +1,6 @@
 # NCCU Moodle Backup Tool(NMBT)
-# Version: v0.0.3 Beta
-# Build: 20240702.2
+# Version: v0.0.4 Beta
+# Build: 20240703.1
 '''
       ###     ###     #####    ####     #########         #######
      ####    ###     ######  #####     ####   ###        ###
@@ -9,7 +9,7 @@
   ###  ## ###     ###       ###     ####   ###        ###
  ###   #####     ###       ###     ####   ###        ###
 ###    ####     ###       ###     #########      ######
-[BETA] v0.0.3-20240702.2
+[BETA] v0.0.4-20240703.1
 
 '''
 
@@ -86,6 +86,12 @@ while UserEULAjudge == "Start":
             mode = ""
 
     while mode == "Continue":
+        NMBT_folder_name = 'NMBT'
+        if not os.path.exists (debug_folder_name):
+            os.mkdir (debug_folder_name)
+            print (f"{debug_folder_name}資料夾已建立")
+        else:
+            print (f"{debug_folder_name}資料夾已存在")
         os.chdir ('C:\\NMBT')
         # Get Moodle Main Page via find_elements
         course_list = driver.find_elements(By.CSS_SELECTOR, ".content .unlist .column.c1 a") # content/unlist/r0 or r1/column.c1/a
