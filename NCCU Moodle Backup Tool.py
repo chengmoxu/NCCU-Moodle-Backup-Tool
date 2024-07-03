@@ -119,21 +119,32 @@ while UserEULAjudge == "Start":
                 os.makedirs (valid_course_name, exist_ok = True)
             # 切換資料夾，載入課程頁面進行存取
             for range in courses:
-                os.chdir ('C:\\NMBT\\')
-                print (course_title)
-                os.chdir ('C:\\NMBT\\' + course_title)
+                course_title_path = ('C:\\NMBT\\' + valid_course_name)
+                os.chdir (course_title_path)
                 driver.get (course_link)
                 time.sleep (3)  # 等待頁面載入完成
                 # section-0 = 公告/課程大綱 資料讀取
                 section0 = driver.find_element(By.CSS_SELECTOR, '#section-0')
                 folder_name = "課程大綱及公告"
-                os.mkdir (folder_name)
-                os.chdir (folder_name)
+                if not os.path.exists (folder_name):
+                    os.mkdir (folder_name)
+                    print (f"{folder_name}資料夾已建立")
+                    os.chdir (folder_name)
+                elif os.path.exists (folder_name):
+                    print (f"{folder_name}資料夾已存在")
+                    os.chdir (folder_name)
                 outline_jump_page = driver.find_elements(By.CSS_SELECTOR, ".content .section img-text .activity url modtype_url .mod-indent-outer .activity-wrapper .activityinstance")
-                outline_jump_page_true = outline_jump_page.get_attribute("href")
-                driver.get (outline_jump_page_true)
+                #outline_jump_page_true = outline_jump_page.get_attribute("href")
+                for element in outline_jump_page:
+                    outline_jump_page_true = element.get_attribute("href")
+                    if outline_jump_page_true:
+                        driver.get(outline_jump_page_true)
                 outline_page = driver.find_elements(By.CSS_SELECTOR, "#region-main .urlworkaround a")
-                outline_page_true = outline_page.get_attribute("href")
+                #outline_page_true = outline_page.get_attribute("href")
+                for element in outline_page:
+                    outline_page_true = element.get_attribute("href")
+                    if outline_page_true:
+                        print(outline_page_true)
                 with open('Introducing.txt', 'w') as file:
                     file.write("課程大綱網址: ")
                     file.write(outline_page_true)
